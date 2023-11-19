@@ -142,8 +142,10 @@ def update_note_text(note_id: str, text: str, username: str) -> int:
 
 def delete_note(note_id: str) -> int:
     notes_collection = db['notes']
+    lastedit_collection = db['lastedit']
     try:
         notes_collection.find_one_and_delete({"_id": ObjectId(note_id)})
+        lastedit_collection.find_one_and_delete({"note": ObjectId(note_id)})
     except Exception as ex:
         print(ex)
         return 404
